@@ -1,248 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI Anime Generator — NSFW OK</title>
-
-<style>
-    body {
-        background: #08080d;
-        color: #fff;
-        font-family: "Inter", sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    header {
-        padding: 20px;
-        text-align: center;
-        background: linear-gradient(to right, #ff009d33, #a200ff33);
-        border-bottom: 1px solid #ff3be155;
-    }
-
-    h1 {
-        font-size: 32px;
-        color: #ff3be1;
-        text-shadow: 0 0 12px #ff4be199;
-    }
-
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 20px;
-    }
-
-    .section {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 0 20px #ff3be133;
-        backdrop-filter: blur(4px);
-    }
-
-    input, textarea, select {
-        width: 100%;
-        padding: 14px;
-        margin: 10px 0;
-        background: #161620;
-        border: 1px solid #ff3be155;
-        color: #fff;
-        border-radius: 10px;
-        font-size: 15px;
-    }
-
-    button {
-        width: 100%;
-        padding: 14px;
-        background: linear-gradient(45deg, #ff009d, #a200ff);
-        border: none;
-        border-radius: 12px;
-        font-size: 18px;
-        font-weight: 600;
-        color: white;
-        cursor: pointer;
-        box-shadow: 0 0 20px #ff3be199;
-        transition: 0.2s;
-    }
-
-    button:hover {
-        transform: scale(1.03);
-        box-shadow: 0 0 25px #ff3be1dd;
-    }
-
-    img {
-        margin-top: 20px;
-        max-width: 100%;
-        border-radius: 12px;
-        box-shadow: 0 0 20px #ff3be199;
-    }
-
-    .loader {
-        margin: 20px auto;
-        width: 70px;
-        height: 70px;
-        border: 6px solid #444;
-        border-top: 6px solid #ff3be1;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        display: none;
-    }
-
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-
-    .history {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 10px;
-    }
-
-    .thumb {
-        width: 120px;
-        border-radius: 10px;
-        cursor: pointer;
-        border: 2px solid transparent;
-    }
-
-    .thumb:hover {
-        border-color: #ff3be1;
-        box-shadow: 0 0 15px #ff3be1aa;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ AI Image Generator (Volume & Mass) ✨</title>
+    <style>
+        /* CSS: Dark Mode & Cyberpunk Style */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #1E1E1E;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        h1 {
+            color: #FF00FF; /* Neon Pink */
+            text-align: center;
+            text-shadow: 0 0 10px #FF00FF;
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00FFFF; /* Neon Cyan */
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background-color: #2D2D2D;
+            color: #E0E0E0;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #FF00FF;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #FF00FF, #00FFFF);
+            color: #121212;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.1s;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button:active {
+            transform: scale(0.99);
+        }
+        #image-display {
+            margin-top: 30px;
+            text-align: center;
+            min-height: 512px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #444;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #2D2D2D;
+        }
+        #image-display img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+        .loading {
+            border: 5px solid #333;
+            border-top: 5px solid #FF00FF;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            color: #FF69B4; /* Hot Pink */
+        }
+        .token-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .token-group input {
+            flex-grow: 1;
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+        .token-group button {
+            width: 120px;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-    <h1>AI Anime Generator (Cyberpunk NSFW)</h1>
-</header>
+    <div class="container">
+        <h1>✨ AI Image Generator ✨</h1>
 
-<div class="container">
+        <div class="token-group">
+            <input type="text" id="hf_token" placeholder="Hugging Face Token">
+            <button onclick="saveToken()">Save Token</button>
+        </div>
 
-    <!-- TOKEN -->
-    <div class="section">
-        <h2>🔑 HuggingFace Token</h2>
-        <input id="token" placeholder="ใส่ HF Token แล้วกด Generate ได้เลย">
+        <textarea id="user_prompt" rows="3" placeholder="Enter your prompt here (e.g., A girl sitting on a neon-lit rooftop...)"></textarea>
+
+        <p style="margin-top: -10px; font-size: 0.9em; color: #888;">*Note: Style keywords for 'Mass/Volume' will be added automatically.</p>
+
+        <button id="generate-button" onclick="generateImage()">Generate Image</button>
+
+        <div id="image-display">
+            <p>Your generated image will appear here.</p>
+        </div>
+        <p id="status-message" class="message"></p>
+
+        <hr style="border-color: #333; margin-top: 30px; margin-bottom: 30px;">
+        <h2>Instructions</h2>
+        <p>1. **Get Hugging Face Token:** Go to <a href="https://huggingface.co/settings/tokens" target="_blank" style="color: #00FFFF;">Hugging Face Settings/Tokens</a> and create a new token. Copy and paste it above, then click 'Save Token'.</p>
+        <p>2. **Generate:** Enter your main subject (e.g., anime girl, warrior, etc.) in the prompt box and click 'Generate Image'.</p>
+        <p style="color: #FF00FF; font-weight: bold;">3. **Style Focus:** The system automatically adds keywords (like 'volumetric lighting', 'visible weight distribution', 'skin indentation') to ensure images have Mass and Volume, matching the style you requested.</p>
     </div>
 
-    <!-- MODEL SELECT -->
-    <div class="section">
-        <h2>🧠 เลือกโมเดล (รองรับ NSFW)</h2>
-        <select id="model">
-            <option value="gsdf/Counterfeit-V3.0">Counterfeit V3 (Anime NSFW Recommended)</option>
-            <option value="stablediffusionapi/anything-v5">Anything V5</option>
-            <option value="MeinaMix/Mix">MeinaMix</option>
-            <option value="Linaqruf/anything-v4.5">Anything v4.5</option>
-            <option value="andite/anything-v5.0">Anything v5.0</option>
-        </select>
-    </div>
+    <script>
+        const API_URL = "https://api-inference.huggingface.co/models/stablediffusionapi/anything-v5"; 
+        const DEFAULT_MODEL = "stablediffusionapi/anything-v5";
 
-    <!-- PROMPT -->
-    <div class="section">
-        <h2>✨ Prompt</h2>
-        <textarea id="prompt" rows="4" placeholder="เช่น: sexy anime girl with huge thighs"></textarea>
-    </div>
+        // --- THE SECRET SAUCE: AUTOMATICALLY APPENDED KEYWORDS ---
+        const POSITIVE_APPEND = " ((volumetric lighting)), ((heavy anatomy)), visible weight distribution, skin indentation, soft shading, ambient occlusion, subsurface scattering, thick thighs, tight clothes, anime masterpiece, high quality, 8k, depth of field.";
+        const NEGATIVE_PROMPT = "flat, 2d sketch, paper, low quality, bad anatomy, missing limbs, thin, stick figure, monochrome, blurry, watermark, text.";
+        // --------------------------------------------------------
 
-    <!-- SETTINGS -->
-    <div class="section">
-        <h2>⚙ Settings</h2>
-        <label>Steps</label>
-        <input id="steps" type="number" value="28">
+        const tokenInput = document.getElementById('hf_token');
+        const userPrompt = document.getElementById('user_prompt');
+        const generateButton = document.getElementById('generate-button');
+        const imageDisplay = document.getElementById('image-display');
+        const statusMessage = document.getElementById('status-message');
+        
+        // Load token from local storage on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedToken = localStorage.getItem('huggingFaceToken');
+            if (savedToken) {
+                tokenInput.value = savedToken;
+                statusMessage.textContent = "Token Loaded. Ready to generate!";
+            } else {
+                statusMessage.textContent = "Please enter and save your Hugging Face Token.";
+            }
+        });
 
-        <label>CFG Scale</label>
-        <input id="cfg" type="number" value="7">
-    </div>
-
-    <button onclick="generate()">Generate Image</button>
-
-    <div class="loader" id="loader"></div>
-
-    <img id="result">
-
-    <!-- HISTORY -->
-    <div class="section">
-        <h2>🖼 History</h2>
-        <div id="history" class="history"></div>
-    </div>
-
-</div>
-
-<script>
-const EXTRA_POSITIVE =
-"((volumetric lighting)), ((heavy anatomy)), visible weight distribution, skin indentation, soft shading, ambient occlusion, subsurface scattering, thick thighs, breast physics, anime masterpiece, high detail, 8k, gorgeous rendering, depth of field";
-
-const EXTRA_NEGATIVE =
-"flat, 2d, sketch, paper, low quality, bad anatomy, missing limbs, thin, weak shading, stick figure, wrong proportions, blurry, monochrome";
-
-document.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem("hf_token");
-    if (saved) document.getElementById("token").value = saved;
-});
-
-async function generate() {
-    const token = document.getElementById("token").value;
-    const prompt = document.getElementById("prompt").value;
-    const model = document.getElementById("model").value;
-    const steps = Number(document.getElementById("steps").value);
-    const cfg = Number(document.getElementById("cfg").value);
-
-    if (!token) return alert("ต้องกรอก HuggingFace Token ก่อนนะ");
-
-    localStorage.setItem("hf_token", token);
-
-    let finalPrompt = `${prompt}, ${EXTRA_POSITIVE}`;
-
-    const payload = {
-        inputs: finalPrompt,
-        parameters: {
-            negative_prompt: EXTRA_NEGATIVE,
-            num_inference_steps: steps,
-            guidance_scale: cfg
+        function saveToken() {
+            const token = tokenInput.value.trim();
+            if (token) {
+                localStorage.setItem('huggingFaceToken', token);
+                statusMessage.textContent = "Token saved successfully!";
+            } else {
+                statusMessage.textContent = "Token cannot be empty.";
+            }
         }
-    };
 
-    const loader = document.getElementById("loader");
-    loader.style.display = "block";
+        async function generateImage() {
+            const token = localStorage.getItem('huggingFaceToken') || tokenInput.value.trim();
+            const promptText = userPrompt.value.trim();
 
-    const resultImg = document.getElementById("result");
-    resultImg.src = "";
+            if (!token || !promptText) {
+                statusMessage.textContent = "Please enter both the Token (and Save) and the Prompt.";
+                return;
+            }
 
-    const endpoint = `https://api-inference.huggingface.co/models/${model}`;
+            // 1. Prepare Prompts (Adding Mass/Volume keywords)
+            const combinedPrompt = `${promptText}${POSITIVE_APPEND}`;
+            
+            statusMessage.textContent = "Generating... (This may take 15-60 seconds for the free tier)";
+            generateButton.disabled = true;
+            imageDisplay.innerHTML = '<div class="loading"></div>';
 
-    const res = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    });
+            try {
+                const response = await fetch(API_URL, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    method: "POST",
+                    body: JSON.stringify({ 
+                        inputs: combinedPrompt,
+                        parameters: {
+                            negative_prompt: NEGATIVE_PROMPT,
+                            num_inference_steps: 28, // Good balance for speed/quality on free tier
+                            guidance_scale: 7,
+                            height: 512,
+                            width: 512
+                        }
+                    }),
+                });
 
-    loader.style.display = "none";
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(`API Error: ${error.error || 'Unknown error'}`);
+                }
 
-    if (!res.ok) {
-        alert("Error: " + res.statusText);
-        return;
-    }
+                // 2. Display Image
+                const blob = await response.blob();
+                const objectURL = URL.createObjectURL(blob);
+                imageDisplay.innerHTML = `<img src="${objectURL}" alt="Generated Image" />`;
+                statusMessage.textContent = "Generation complete!";
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-
-    resultImg.src = url;
-    addHistory(url);
-}
-
-function addHistory(src) {
-    const h = document.getElementById("history");
-    const img = document.createElement("img");
-    img.src = src;
-    img.className = "thumb";
-    img.onclick = () => (document.getElementById("result").src = src);
-    h.prepend(img);
-}
-</script>
-
+            } catch (error) {
+                imageDisplay.innerHTML = '<p style="color: #FF4444; padding: 20px;">Generation Failed: Check your Token and Model. Details in Console.</p>';
+                statusMessage.textContent = `Error: ${error.message}`;
+                console.error("Generation Error:", error);
+            } finally {
+                generateButton.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
